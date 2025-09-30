@@ -1,0 +1,8 @@
+[MOMO_LOGIN_PAGE]
+login_url = https://m.momoshop.com.tw/mymomo/login.momo
+api_url = https://momoshop
+momo_account = 
+momo_password = 
+
+[OPENAI_API_TOKEN]
+GITHUB_TOKEN =

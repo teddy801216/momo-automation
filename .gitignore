@@ -1,0 +1,10 @@
+*jpg
+report*
+__pycache__/
+.cache
+.pytest_cache/
+teddy_venv
+Screenshots
+node_modules
+builds/
+.env
