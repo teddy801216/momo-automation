@@ -1,4 +1,3 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -41,8 +40,6 @@ class UserActions:
         )
         button_login_locator.click()
 
-        # assert self.wait.until(EC.element_to_be_clickable(locators.main_header_locator)) is True
-
     def _switch_to_login_iframe(self, locators: MomoLocators, timeout=10):
         self.driver.switch_to.default_content()  # switch to init page
         try:
@@ -60,30 +57,3 @@ class UserActions:
         footer_car = self.wait.until(EC.element_to_be_clickable(locators.footer_car))
         footer_car.click()
 
-    def _dump_inputs_in_current_frame(self):
-        inputs = self.driver.find_elements(By.CSS_SELECTOR, "input")
-        print(f"[IFRAME] inputs = {len(inputs)}")
-        for i, el in enumerate(inputs):
-            print(i, {
-                "id": el.get_attribute("id"),
-                "name": el.get_attribute("name"),
-                "class": el.get_attribute("class"),
-                "type": el.get_attribute("type"),
-                "placeholder": el.get_attribute("placeholder"),
-            })
-
-    def _dump_all_elements(self, tag="*"):
-        """列印頁面上所有符合 tag 的元素資訊"""
-        elems = self.driver.find_elements(By.CSS_SELECTOR, tag)
-        print(f"[DUMP] 共找到 {len(elems)} 個元素")
-        for i, el in enumerate(elems):
-            attrs = {
-                "tag": el.tag_name,
-                "id": el.get_attribute("id"),
-                "name": el.get_attribute("name"),
-                "class": el.get_attribute("class"),
-                "placeholder": el.get_attribute("placeholder"),
-                "type": el.get_attribute("type"),
-                "text": el.text.strip(),
-            }
-            print(f"[{i}] {attrs}")

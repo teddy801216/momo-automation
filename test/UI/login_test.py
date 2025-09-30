@@ -5,7 +5,7 @@ loginHelper = LoginHelper()
 openAiHelper = OpenAIHelper()
 
 
-def test_login():
+def test_login_2FA():
     account, password, locators, actions, driver = loginHelper.loginFlow(OptionType='--head')
     actions.Login(account=account, password=password, locators=locators)
     # check if login show 2FA
