@@ -12,14 +12,19 @@ python 必須高於 python3.11, 本範例使用 python3.13
    pip install -r requirements.txt
    ```
 
-2. 輸入在 config.txt 輸入帳號密碼
+2. 在 config.txt 輸入momo帳號密碼
     ```config.txt
     [MOMO_LOGIN_PAGE]
     momo_account = 
     momo_password =
     ```
+
+3. 在 config.txt github OpenAI API token
+    ```config.txt
+    GITHUB_TOKEN =
+    ```
+
 --
-# Candidate: 羅泰集
 # Position: QA Engineer
 # Supplement Note
 
