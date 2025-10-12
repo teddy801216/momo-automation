@@ -1,0 +1,74 @@
+stages:
+  - server_status
+  - pytest_api
+  - test_login_p0
+
+is_server_online:
+  stage: server_status
+  tags:
+    - linux
+  image: python:3.12-slim
+  before_script:
+    - apt-get update && apt-get install -y iputils-ping
+  script:
+    - echo "Checking internet connectivity..."
+    - ping -c 3 google.com && echo "✅ Network OK" || (echo "❌ Network down" && exit 1)
+    - echo '{"status":"ok"}' > pipeline-log-server.json
+  artifacts:
+    when: always
+    paths:
+      - pipeline-log-server.json
+    expire_in: 15 mins
+
+
+tests_api:
+  stage: pytest_api
+  needs:
+    - is_server_online
+  allow_failure: true
+  tags:
+    - linux
+  image: python:3.12-slim
+  before_script:
+    - pip install -r requirements.txt
+    - pip install pytest-json-report
+    - apt-get update
+    - apt-get install -y xvfb wget gnupg ca-certificates
+    - wget -qO- https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux.gpg
+    - echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-linux.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+    - apt-get update
+    - apt-get install -y google-chrome-stable
+    - export CHROME_BIN=/usr/bin/google-chrome
+    - pip list
+  script:
+    - export DISPLAY=:99  # Set display for xvfb
+    - pytest test/API_test --collect-only
+    - xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' pytest -vs --json-report --json-report-file=pipeline-log-api.json test/API_test
+
+  artifacts:
+    when: always
+    paths:
+      - pipeline-log-api.json
+    expire_in: 15 mins
+
+test_login_p0:
+  stage: test_login_p0
+  timeout: 60 min
+  needs:
+    - job: is_server_online
+  tags:
+    - macos
+  before_script:
+    - python3.13 -m venv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt
+    - pip install pytest-json-report
+    - pip list
+  script:
+    - pytest test/UI/ --collect-only
+    - pytest -vs --json-report --json-report-file=pipeline-log-p0-p0.json test/UI/
+  artifacts:
+    when: always
+    paths:
+      - pipeline-log-p0.json
+    expire_in: 15 mins

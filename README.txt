@@ -35,9 +35,14 @@ python 必須高於 python3.11, 本範例使用 python3.13
 - 運行影片：output.mp4
 
 2) API 測試
-- 目標: 要展示 API 測試設計與掌握度
+- 目標: 展示 API 測試設計與掌握度
 - 程式位置: momo-automation/test/API_test/query_goods_stock_test.py
 - 執行方式: pytest -vs test/API_test/query_goods_stock_test.py
 - RESTful API，使用假的 host, 詳細思路與驗證重點，將於面試時說明。
+
+3) gitlab-ci 自動化執行
+- 目標: 展示 CI 掌握度
+- 程式位置: ll .gitlab-ci.yml
+- 展示當自動化測試「UI 測試」「API 測試」與撰寫完成, 掛載測試集到gitlab runner server 上, 可以每日排程自動化執行,細思路與驗證重點，將於面試時說明。
 
 --- 
