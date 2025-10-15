@@ -48,8 +48,8 @@ class OpenAIHelper:
 
     def compare_screen_with_image(self,
                                   image_path: str,
-                                  model="openai/gpt-4.1",
-                                  prompt="Compare two images. the one is screenshot of doing login you can find 帳號 & 密碼 & 登入 text other picture is login 2FA you can find error ACT016, please check screenshot conain error ACT016, if yes reply True if not reply False If neither image contains the elements of the other, reply False."):
+                                  model="openai/gpt-4.1-mini",
+                                  prompt="Compare two images. the one is screenshot other one picture is login 2FA you can find text [ACT016], please check screenshot contain [ACT016] if yes reply True if not reply False If neither image contains the elements of the other, reply False."):
         screenshot_path, screenshot_b64 = self._take_and_save_screenshot()
 
         with open(image_path, "rb") as f:
